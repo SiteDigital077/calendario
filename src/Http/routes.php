@@ -15,10 +15,7 @@ Route::group(['middleware' => ['auths','administrador']], function (){
  Route::get('gestion/calendario/eliminar-tipo/{id}', 'DigitalsiteSaaS\Calendario\Http\CalendarioController@deletetipo');
  Route::get('gestion/registro/eventos', 'DigitalsiteSaaS\Calendario\Http\CalendarioController@registros');
 
- Route::get('/gestion/crear-evento', function(){
-  $tipos = DB::table('tipo_evento')->get();
-  return View::make('calendario::crear-evento')->with('tipos', $tipos);
- });
+Route::get('gestion/crear-evento', 'DigitalsiteSaaS\Calendario\Http\CalendarioController@creareventoweb');
 
  Route::get('/gestion/crear-tipo', function(){
   return View::make('calendario::crear-tipo');
