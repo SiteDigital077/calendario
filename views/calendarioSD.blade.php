@@ -5,8 +5,8 @@
    {{ Html::style('modulo-calendario/css/calendar.css') }}
     <style type="text/css">
      @foreach($tiposweb as $tiposweb)
-      .{{$tiposweb->slug}}{
-      background-color:{{ $tiposweb->color }};
+      #{{$tiposweb->slug}}{
+      background-color:{{ $tiposweb->color }} !important;
       }
      @endforeach
     </style>

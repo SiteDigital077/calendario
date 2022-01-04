@@ -13,14 +13,14 @@ use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Repositories\HostnameRepository;
 use Hyn\Tenancy\Repositories\WebsiteRepository;
-
+use Session;
 use Illuminate\Http\Request;
 class CalendarioController extends Controller{
 
 protected $tenantName = null;
 
  public function __construct(){
-  $this->middleware('auth');
+ 
 
   $hostname = app(\Hyn\Tenancy\Environment::class)->hostname();
         if ($hostname){
@@ -204,6 +204,23 @@ protected $tenantName = null;
  }
   return View('calendario::crear-evento')->with('tipos', $tipos);
  }
+
+ public function actionIndexwebevento()
+    {
+        if($_POST)
+        {
+            Session::put('start', Input::get('start'));
+            Session::put('end', Input::get('end'));
+            Session::put('tipo', Input::get('tipo'));
+            $redireccion =  Input::get('redireccion');
+            if($redireccion == ''){
+            return redirect('/');
+            }
+            else{
+            return redirect($redireccion);
+           }
+        }  
+    }
 
 
  

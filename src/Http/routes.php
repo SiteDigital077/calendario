@@ -26,5 +26,6 @@ Route::get('gestion/crear-evento', 'DigitalsiteSaaS\Calendario\Http\CalendarioCo
 Route::group(['middleware' => ['web']], function (){
 
  Route::resource('gestion/calendario/registroa', 'DigitalsiteSaaS\Pagina\Http\WebController@registrara');
+
  
 });
