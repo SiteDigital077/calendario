@@ -1,4 +1,8 @@
 <?php
+
+
+
+
 Route::group(['middleware' => ['auths','administrador']], function (){
 
  Route::get('gestion/calendario', 'DigitalsiteSaaS\Calendario\Http\CalendarioController@index');

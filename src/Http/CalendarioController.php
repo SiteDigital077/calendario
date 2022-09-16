@@ -3,6 +3,8 @@
 namespace DigitalsiteSaaS\Calendario\Http;
 use DigitalsiteSaaS\Calendario\Calendar;
 use DigitalsiteSaaS\Calendario\Tipo;
+use DigitalsiteSaaS\Calendario\Empleado;
+use DigitalsiteSaaS\Calendario\Informacion;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -224,5 +226,94 @@ protected $tenantName = null;
 
 
  
+
+ public function nomina(){
+  
+  return View('calendario::nomina');
+ }
+
+ public function empleados(){
+  
+
+  if(!$this->tenantName){
+   $empleados = Empleado::leftjoin('informacion','empleados.id','=','informacion.empleado_id')
+   ->select("empleados.id","empleados.created_at","empleados.nombre","empleados.cargo","informacion.inicio","informacion.fin","empleados.documento")->get();
+
+ }else{
+   $empleados = \DigitalsiteSaaS\Calendario\Tenant\Empleado::leftjoin('informacion','empleados.id','=','informacion.empleado_id')->get();
+ }
+
+  return View('calendario::empleados')->with('empleados', $empleados);
+ }
+
+
+public function empleadonuevo(){
+  
+  return View('calendario::nuevo-empleado');
+ }
+
+ public function infolaboral(){
+  
+  return View('calendario::infolaboral');
+ }
+
+ public function desprendible(){
+  $datos = Empleado::leftjoin('informacion','empleados.id','=','informacion.empleado_id')->get();
+
+  return View('calendario::desprendible')->with('datos', $datos);
+ }
+
+
+public function crearempleado(){
+  date_default_timezone_set('America/Bogota');
+   if(!$this->tenantName){
+   $empleado = new Empleado;
+   }else{
+   $empleado = new \DigitalsiteSaaS\Calendario\Tenant\Empelado;
+   }
+   $empleado->nombre = Input::get('val-nombre');
+   $empleado->apellido = Input::get('val-apellido');
+   $empleado->correo = Input::get('val-email');
+   $empleado->telefono = Input::get('val-telefono');
+   $empleado->tipodoc = Input:: get ('val-tipo');
+   $empleado->documento = Input:: get ('val-numero');
+   $empleado->direccion = Input:: get ('val-direccion');
+   $empleado->ciudad = Input:: get ('val-ciudad');
+   $empleado->tipago = Input:: get ('valtipo');
+   $empleado->banco = Input:: get ('val-banco');
+   $empleado->tipocuenta = Input:: get ('val-tipcuenta');
+   $empleado->numerocu = Input:: get ('val-cuenta');
+   $empleado->save();
+   return Redirect('gestion/empleados')->with('status', 'ok_create');
+ }
+
+
+
+
+public function crearinformacion(){
+  date_default_timezone_set('America/Bogota');
+   if(!$this->tenantName){
+   $empleado = new Informacion;
+   }else{
+   $empleado = new \DigitalsiteSaaS\Calendario\Tenant\Informacion;
+   }
+   $empleado->tipo_contrato = Input::get('val-tipocontrato');
+   $empleado->sueldo = Input::get('val-sueldo');
+   $empleado->inicio = Input::get('val-inicio');
+   $empleado->fin = Input::get('val-fin');
+   $empleado->tipo_sueldo = Input:: get ('val-tiposueldo');
+   $empleado->tipo_cotizante = Input:: get ('val-tipocot');
+   $empleado->salud = Input:: get ('val-salud');
+   $empleado->por_salud = Input:: get ('val-porcentajesalud');
+   $empleado->pensiones = Input:: get ('val-pensiones');
+   $empleado->por_pensiones = Input:: get ('val-porcentajepensiones');
+   $empleado->arl = Input:: get ('val-arl');
+   $empleado->por_arl = Input:: get ('val-porcentajearl');
+   $empleado->caja = Input:: get ('val-caja');
+   $empleado->cesantias = Input:: get ('val-cesantias');
+   $empleado->empleado_id = Input:: get ('empleado-id');
+   $empleado->save();
+   return Redirect('gestion/empleados')->with('status', 'ok_create');
+ }
 
 }
