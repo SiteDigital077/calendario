@@ -126,8 +126,8 @@ protected $tenantName = null;
  public function edit($id){
   if(!$this->tenantName){
   $eventos = Tipo::join('events','events.class','=','tipo_evento.tipo')
-  ->where('events.id','=',$id)->get();
-  }else{
+  
+  }else{->where('events.id','=',$id)->get();
   $eventos = \DigitalsiteSaaS\Calendario\Tenant\Tipo::join('events','events.class','=','tipo_evento.tipo')
   ->where('events.id','=',$id)->get();
   }
